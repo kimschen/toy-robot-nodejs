@@ -1,0 +1,79 @@
+dimension 5x5 with cardinal direction
+
+          N
+
+    4 [][][][][]
+    3 [][][][][]
+W   2 [][][][][]    E
+    1 [][][][][]
+    0 [][][][][]
+      0 1 2 3 4
+
+          S
+
+
+Validation command
+- Check if robot is given the valid command: PLACE X,Y,F
+- Available cardinal direction command north/east/south/west
+- Check if robot is place/move out of dimension
+
+    if first command place and nothing else
+        return error
+    if command followed by x,y,f is not given
+        return error
+
+    CHECK F command
+    if f command is north/east/south/west
+
+    CHECK X,Y
+    if x < 0 || > 4 || y < 0 || > 4
+        return msg: robot is out of dimension
+    else
+        validate input x,y,f
+        if the input is valid
+            execute command
+            place the robot
+        else
+            return error
+
+- robot
+    set robot default place value = false
+    store robot position if command is made
+
+ - command left
+    get command (f)
+    if position (f) - 1 is < 0 ? 3 :
+    position takes value of 3 - 1
+    return position
+
+- command right
+    get command (f)
+    if position (f) + 1 is > 3 ? 0 :
+    position takes value of 0 + 1
+    return position
+
+- command move
+    get command x,y,f
+    if position (f) is
+        NORTH:
+            y + 1
+        EAST:
+            x + 1
+        SOUTH:
+            y - 1
+        WEST:
+            x - 1
+
+    check if position x,y is < 0 || > 4
+        return msg: robot is out of dimension
+    else
+        update robot position x,y,f
+
+- command report
+check if robot is placed
+
+    if robot is placed
+        get robot position
+        return current position of x,y,f
+    else
+        return error
