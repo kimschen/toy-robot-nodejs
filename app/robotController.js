@@ -21,28 +21,29 @@ const response = {
 	invalidCommand: "Robot don't understand your command.",
 	invalidDirection: "Direction is incorrect. Available directions are: NORTH, EAST, SOUTH, WEST",
 	wrongDimension: "The robot must be within the dimensions of 5 x 5 units.",
-	notPlaced: "Robot has not been placed.",
+	robotNotPlaced: "Robot has not been placed.",
+	robotFall: "The robot will not move as it would fall off the table.",
 	robotPosition: "Robot position is: "
 };
 
 const command = {
 	place: "PLACE",
-	report: "REPORT",
+	move: "MOVE",
 	left: "LEFT",
 	right: "RIGHT",
 	north: "NORTH",
 	east: "EAST",
 	south: "SOUTH",
-	west: "WEST"
+	west: "WEST",
+	report: "REPORT"
 };
 
 
 function RobotController() {}
 
-var prototype = {
+let prototype = {
 
-	// App start
-	start:function() {
+	start: function() {
 		console.log(response.welcome);
 		rl.prompt();
 		rl.on('line', (input) => {
@@ -81,9 +82,21 @@ var prototype = {
 			case command.report:
 				this._report();
 			break;
-			// case command.left:
-			// case command.right:
-			// case command.move:
+
+			// Move
+			case command.move:
+				if(!robot._status.isPlaced) {
+					console.log(response.notPlaced);
+					return;
+				}
+				robot.move(function(isValid) {
+					if(!isValid) {
+						console.log(response.robotFall);
+					}
+				});
+				break;
+				// case command.left:
+				// case command.right:
 			default:
 				console.log(response.invalidCommand);
 		}
@@ -97,22 +110,22 @@ var prototype = {
 			case command.east:
 			case command.south:
 			case command.west:
-
-			// Check X,Y
-			if(x<0||x>4||y<0||y>4) {
-				console.log(response.wrongDimension);
-				return;
-			}
-			return callback(true);
+				// Check X,Y
+				if(x<0||x>4||y<0||y>4) {
+					console.log(response.wrongDimension);
+					return;
+				}
+				return callback(true);
 			break;
-			default: console.log(command.invalidDirection);
+				default: console.log(command.invalidDirection);
+			break;
 		}
 	},
 	_report: function() {
 		if(robot._status.isPlaced){
 			console.log(`${response.robotPosition}${robot._status.currentX},${robot._status.currentY},${robot._status.currentDirection}`);
 		  } else {
-			console.log(response.notPlaced);
+			console.log(response.robotNotPlaced);
 		  }
 	}
 
