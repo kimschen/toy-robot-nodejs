@@ -7,11 +7,12 @@ Usage
 Start the robot simulator
 
     node start
-    
+
 Currently, the robot supports the following commands:
 
     PLACE X,Y,F
     REPORT
+    MOVE
 
 Description
 -----------
