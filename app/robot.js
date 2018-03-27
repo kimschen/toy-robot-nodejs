@@ -1,4 +1,9 @@
 'use strict';
+/**
+* This module consists of robot constructor and methods: Place,Move,Rotate(Left/Right)
+**/
+
+module.exports = Robot;
 
 let f = {
   "NORTH": 0,
@@ -7,7 +12,6 @@ let f = {
   "WEST": 3
 };
 
-module.exports = Robot;
 
 function Robot() {
     this._status = {
@@ -57,6 +61,18 @@ let prototype = {
                 }
             break;
         }
+    },
+    rotate: function(rotation) {
+        let direction = f[this._status.currentDirection];
+        direction += rotation;
+
+        if(direction>3) {
+            direction = 0;
+        }
+        if(direction<0) {
+            direction = 3;
+        }
+        this._status.currentDirection = Object.keys(f)[direction];
     }
 }
 

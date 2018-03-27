@@ -1,5 +1,4 @@
 'use strict';
-
 /**
 * This module uses robot instance and call its methods to operate.
 **/
@@ -17,7 +16,7 @@ let rl = readline.createInterface({
 });
 
 const response = {
-	welcome: "\n Welcome! Test the robot with available command: \n - PLACE {X},{Y},{F} \n X : 0 to 4 \n Y : 0 to 4 \n F : NORTH | EAST | SOUTH | WEST \n Followed by command: LEFT | RIGHT | MOVE | REPORT \n - Q/QUIT/EXIT to exit the command.",
+	welcome: "\n Welcome! Test the robot with available command: \n - PLACE {X},{Y},{F} \n X : 0 to 4 \n Y : 0 to 4 \n F : NORTH | EAST | SOUTH | WEST \n Followed by command: LEFT | RIGHT | MOVE | REPORT \n - QUIT to exit the command.",
 	invalidCommand: "Robot don't understand your command.",
 	invalidDirection: "Direction is incorrect. Available directions are: NORTH, EAST, SOUTH, WEST",
 	wrongDimension: "The robot must be within the dimensions of 5 x 5 units.",
@@ -35,7 +34,8 @@ const command = {
 	east: "EAST",
 	south: "SOUTH",
 	west: "WEST",
-	report: "REPORT"
+	report: "REPORT",
+	quit: "QUIT"
 };
 
 
@@ -76,14 +76,7 @@ let prototype = {
 				} else {
 					console.log(response.invalidCommand);
 				}
-				break;
-
-			// Report
-			case command.report:
-				this._report();
 			break;
-
-			// Move
 			case command.move:
 				if(!robot._status.isPlaced) {
 					console.log(response.notPlaced);
@@ -94,9 +87,26 @@ let prototype = {
 						console.log(response.robotFall);
 					}
 				});
-				break;
-				// case command.left:
-				// case command.right:
+			break;
+			case command.left:
+				if(!robot._status.isPlaced) {
+					console.log(response.notPlaced);
+					return;
+				}
+				robot.rotate(-1);
+			break;
+			case command.right:
+				if(!robot._status.isPlaced) {
+					console.log(response.notPlaced);
+					return;
+				}
+				robot.rotate(1);
+			case command.report:
+				this._report();
+			break;
+			case command.quit:
+				process.exit();
+			break;
 			default:
 				console.log(response.invalidCommand);
 		}
