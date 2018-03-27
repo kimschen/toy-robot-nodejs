@@ -13,6 +13,9 @@ Currently, the robot supports the following commands:
     PLACE X,Y,F
     REPORT
     MOVE
+    LEFT
+    RIGHT
+    QUIT
 
 Description
 -----------
